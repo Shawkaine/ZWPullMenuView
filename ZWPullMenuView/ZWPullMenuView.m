@@ -11,7 +11,7 @@
 #import "ZWPullMenuModel.h"
 
 #define MenuContentMargin   15
-#define MenuImageWidth      30
+#define MenuImageWidth      13
 #define MenuBorderMinMargin    10
 @interface ZWPullMenuView ()
 <UITableViewDelegate,
@@ -39,8 +39,8 @@ UITableViewDataSource>
 }
 - (void)configDefault{
     self.triangleHeight = 8;
-    self.menuCellHeight = 50;
-    self.menuMaxHeight = 5 * self.menuCellHeight;
+    self.menuCellHeight = 38;
+    self.menuMaxHeight = 10 * self.menuCellHeight;
     self.zwPullMenuStyle = PullMenuDarkStyle;
 }
 - (void)configTable{
@@ -87,18 +87,19 @@ UITableViewDataSource>
 }
 #pragma mark - function
 - (void)animateRemoveView{
-    [UIView animateWithDuration:0.5 animations:^{
-        self.alpha = 0.f;
-        self.contentView.transform = CGAffineTransformMakeScale(0.001f, 0.001f);
-        self.contentView.alpha = 0.f;
-    } completion:^(BOOL finished) {
+//    [UIView animateWithDuration:0.5 animations:^{
+//        self.alpha = 0.f;
+//        self.contentView.transform = CGAffineTransformMakeScale(0.001f, 0.001f);
+//        self.contentView.alpha = 0.f;
+//    } completion:^(BOOL finished) {
         [self removeFromSuperview];
-    }];
+//    }];
 }
 - (CGFloat)cacuateCellWidth{
+    return 130;
     __block CGFloat maxTitleWidth = 0;
     [self.menuArray enumerateObjectsUsingBlock:^(ZWPullMenuModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        CGFloat width = [obj.title sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17]}].width;
+        CGFloat width = [obj.title sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11]}].width;
         if (obj.imageName.length) {
             width = width + MenuContentMargin + MenuImageWidth;
         }
@@ -147,9 +148,9 @@ UITableViewDataSource>
         x = MenuBorderMinMargin;
         layerPosition.x = x;
     }
-    if (x+w>self.bounds.size.width) {
+    if (x+w >self.bounds.size.width) {
         x = self.bounds.size.width - w - MenuBorderMinMargin;
-        layerPosition.x = x+w;
+        layerPosition.x = self.bounds.size.width -4;
     }
     //Y中心位置
     //居上：下拉
@@ -166,6 +167,7 @@ UITableViewDataSource>
         layerPosition.y = y + h;
     }
     self.contentView.frame = CGRectMake(x, y, w, h + self.triangleHeight);
+    self.contentView.tag = 422;
     [self drawTriangle];
     //动画锚点
     self.contentView.layer.position = layerPosition;
@@ -181,7 +183,7 @@ UITableViewDataSource>
     if (x < 2 * self.triangleHeight) {
         x = 2 * self.triangleHeight;
     }
-    if (x > CGRectGetWidth(self.contentView.bounds) - 2 * self.triangleHeight) {
+    if (x > CGRectGetWidth(self.contentView.bounds) - 1.5 * self.triangleHeight) {
         x = CGRectGetWidth(self.contentView.bounds) - 2 * self.triangleHeight;
     }
     //Y中心位置
@@ -282,7 +284,7 @@ UITableViewDataSource>
                                                style:UITableViewStylePlain];
         _mTable.delegate = self;
         _mTable.dataSource = self;
-        _mTable.layer.cornerRadius = 5;
+        _mTable.layer.cornerRadius = 3;
         _mTable.backgroundColor = self.menuBgColor;
         _mTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     }

@@ -30,10 +30,11 @@
     if (!menuModel.imageName.length) {
         self.menuImageWidth.constant = 0;
     }else{
-        self.menuImageWidth.constant = 30;
+        self.menuImageWidth.constant = 13;
     }
     if (menuModel.imageName.length) {
         self.menuImageView.image = [UIImage imageNamed:menuModel.imageName];
+        self.menuImageView.contentMode = UIViewContentModeCenter;
     }
     self.menuTitleLab.text = menuModel.title;
 }
@@ -44,7 +45,7 @@
         {
             self.selectedBgView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
             self.menuTitleLab.textColor = [UIColor whiteColor];
-            self.lineColor = [UIColor whiteColor];
+            self.lineColor = [UIColor clearColor];
         }
             break;
         case PullMenuLightStyle:
@@ -57,6 +58,7 @@
         default:
             break;
     }
+    self.menuTitleLab.font = [UIFont systemFontOfSize:11];
 }
 -(void)setIsFinalCell:(BOOL)isFinalCell{
     _isFinalCell = isFinalCell;
